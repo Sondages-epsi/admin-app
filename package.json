@@ -1,0 +1,27 @@
+{
+  "name": "admi-sondage",
+  "version": "1.0.0",
+  "description": "page d'administration des sondages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sondages-epsi/admin-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sondages-epsi/admin-app/issues"
+  },
+  "homepage": "https://github.com/Sondages-epsi/admin-app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "materialize": "^1.0.0",
+    "mongoose": "^5.4.2"
+  }
+}
