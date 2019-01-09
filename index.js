@@ -10,46 +10,62 @@ const surveySchema = new mongoose.Schema({
   name:String,
   questions:{
 	type:Map,
-	of: String
+	of: Object
   }
 });
 const Survey = mongoose.model('Survey',surveySchema);
-const responseSchema = new mongoose.Schema({ 
+const answerSchema = new mongoose.Schema({ 
 	user: String,
-	responses:{
+	answers:{
 		type:Map,
 		of: String
 	}
 });
-const Response = new mongoose.model('Response',responseSchema);
+const Answer = new mongoose.model('Answer',answerSchema);
 
 
 function createSurvey(surveyData){
-	return Promise.all([Survey.deleteMany({}),Response.deleteMany({})])
-			.then(() =>{
-				let survey = new Survey(surveyData)
-				return survey.save().then(()=>{
-					return surveyData
+	if(checkSurvey(surveyData)){
+		return Promise.all([Survey.deleteMany({}),Answer.deleteMany({})])
+				.then(() =>{
+					let survey = new Survey(surveyData)
+					return survey.save().then(()=>{
+						return surveyData
+					})
 				})
-			})
+	}else{
+		throw new Error('Invalid parameters')
+	}
 }
-
-function addResponse(data){
-	return Response.findOne({user : data.user}).then((result)=>{
-		let newDoc = result
-		if(result && result.user && result.responses){
-			newDoc.responses.set(data.question,data.response)
-		}else{
-			newDoc = {
-				user: data.user,
-				responses: {[data.question]:data.response}
-			}		
-		}
-		newDoc = new Response(newDoc)
-		return newDoc.save().then((res)=>{
-			return res;
+function checkSurvey(survey){
+	return survey && survey.name &&	survey.questions;
+}
+function checkRequest(req){
+	return req && req.body;
+}
+function checkAnswerObject(answer){
+	return answer.user && answer.question && answer.answer;
+}
+function addAnswer(data){
+	if(checkAnswerObject(data)){
+		return Answer.findOne({user : data.user}).then((result)=>{
+			let newDoc = result
+			if(result && result.user && result.answers){
+				newDoc.answers.set(data.question,data.answer)
+			}else{
+				newDoc = {
+					user: data.user,
+					answers: {[data.question]:data.answer}
+				}		
+			}
+			newDoc = new Answer(newDoc)
+			return newDoc.save().then((res)=>{
+				return res;
+			});
 		});
-	});
+	}else{
+		throw new Error('Invalid parameters')
+	}
 }
 // To get all surveys
 app.get('/survey',(req,res)=>{
@@ -59,13 +75,12 @@ app.get('/survey',(req,res)=>{
 		res.status(500).send('Error getting survey')
 	});
 });
-app.post('/response',(req,res)=>{
-	if(req && req.body && req.body.user && req.body.question && req.body.response){
-		addResponse(req.body).then((result)=>{
+app.post('/answer',(req,res)=>{
+	if(checkRequest(req) && checkAnswerObject(req.body)){
+		addAnswer(req.body).then((result)=>{
 			res.send(result);
-			return result;
-			
-		}).catch((err)=>{
+			return result;			
+		}).catch((err)=>{			
 			res.status(500).send('Internal error')
 		})
 	}else{
@@ -74,14 +89,14 @@ app.post('/response',(req,res)=>{
 });
 
 app.post('/survey',(req,res)=>{
-	if(req && req.body && req.body.survey && req.body.survey.name && req.body.survey.questions){
-		 createSurvey(req.body.survey).then((result) =>{
+	if(checkRequest(req)){
+		createSurvey(req.body.survey).then((result) =>{
 			res.send(result);
-		 }).catch(()=>{
+		}).catch(()=>{
 			res.status(500).send('Internal error')
-		 })
+		})	
 	}else{
-		res.send('Invalid parameters')
+		res.status(500).send('Invalid parameters')
 	}
 });
 
