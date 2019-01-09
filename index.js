@@ -67,12 +67,20 @@ function addAnswer(data){
 		throw new Error('Invalid parameters')
 	}
 }
-// To get all surveys
+
 app.get('/survey',(req,res)=>{
 	return Survey.findOne({}).then((survey)=>{
 		res.send(survey);
 	}).catch(() =>{
 		res.status(500).send('Error getting survey')
+	});
+});
+
+app.get('/answer',(req,res)=>{
+	return Answer.find({}).then((answers)=>{
+		res.send(answers);
+	}).catch(() =>{
+		res.status(500).send('Error getting answers')
 	});
 });
 app.post('/answer',(req,res)=>{
