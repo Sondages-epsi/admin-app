@@ -1,6 +1,7 @@
 const env = require('dotenv').config()
 const path = require('path')
-const app = require('express')()
+const express = require('express')
+const app = express()
 const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
@@ -110,7 +111,7 @@ app.post('/survey',(req,res)=>{
 	}
 });
 
-app.get('/',(req,res) => res.sendFile(path.resolve('views/index.html')))
+app.get('/',(req,res) => res.sendFile(path.resolve('index.html')))
 
 	
 

@@ -21,7 +21,6 @@
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "materialize": "^1.0.0",
     "mongoose": "^5.4.2"
   }
 }
