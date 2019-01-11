@@ -1,4 +1,5 @@
 const env = require('dotenv').config()
+const path = require('path')
 const app = require('express')()
 const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 3000
@@ -6,6 +7,7 @@ const mongoose = require('mongoose')
 mongoose.connect('mongodb://'+process.env.DB_ADDRESS+'/'+process.env.DB_NAME,{useNewUrlParser: true})
 const db = mongoose.connection;
 app.use(bodyParser.json())
+app.use(express.static('public'));
 const surveySchema = new mongoose.Schema({  
   name:String,
   questions:{
@@ -107,6 +109,10 @@ app.post('/survey',(req,res)=>{
 		res.status(500).send('Invalid parameters')
 	}
 });
+
+app.get('/',(req,res) => res.sendFile(path.resolve('views/index.html')))
+
+	
 
 
 //Listening

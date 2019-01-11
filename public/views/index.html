@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../styles/style.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">       
+	</head>
+	<body class="grey lighten-5">
+		
+		<div class="container">
+			<div class="center-align row survey">
+				<div class="col card hoverable s12">
+					<div id="card-content">					
+						<form>
+							<div class="row">
+								<input class="center-align  z-depth-3" type="text" id="name" placeholder="Name of the survey . . .">
+							</div>							
+							<div class="row">
+								<div class="col question-form s10 push-s1 z-depth-3">
+									<form>
+										<table id="questions">
+											<thead>
+											  <tr>
+												  <th>Question</th>
+												  <th>Answer 1</th>
+												  <th>Answer 2</th>
+												  <th>Answer 3</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td><input type="text"></td>
+												<td><input type="text"></td>
+												<td><input type="text"></td>											
+												<td><input type="text"></td>
+											  </tr>
+											</tbody>
+										 </table>
+									</form>		
+								</div>
+							</div>
+							<button class="btn-floating btn-large waves-effect waves-light green" id="add" type="button"><i class="material-icons add">add</i></button>
+							<button class="btn-floating btn-large waves-effect waves-light red" id="remove" type="button"><i class="material-icons remove">remove</i></button>
+							<div class="row right-align pull-s1">
+								<button id="sendButton" class="btn btn-large" name="action"><b>Send</b><i class="material-icons right">send</i></button>
+							</div>
+						</form>						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  
+		<script type="text/javascript" src="../scripts/script.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+         
+	</body>
+</html>
