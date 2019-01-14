@@ -8,30 +8,37 @@ $('#remove').click(() =>{
 
 $('#sendButton').click(() =>{
 	let survey ={}
-	let name = $('#name')
+	let name = $('#name').val()
 	let questions
 	if(name){		
 		survey.name = name
 		questions = $('.question-row').map((i,tr) =>{
 			return {
 				question:$(tr).find('#question').val(),
-				answer1:$(tr).find('#answer1').val(),
-				answer2:$(tr).find('#answer2').val(),
-				answer3:$(tr).find('#answer3').val()			
+				answers:{
+					1:$(tr).find('#answer1').val(),
+					2:$(tr).find('#answer2').val(),
+					3:$(tr).find('#answer3').val()		
+				}	
 			}
-		}).filter((i,question)=>{return isValidQuestion(question)}).get();
-		if(questions.length >0){
+		}).filter((i,question)=>{
+			return isValidQuestion(question)
+		}).get().reduce((obj,curr,i)=>{
+			obj[i] = curr;
+			return obj;
+		},{})
+		if(questions[0]){
 			survey.questions = questions
-			//$.post('/survey',survey);
+			$.ajax( {url:'/survey',type:'POST', data:JSON.stringify(survey),contentType: 'application/json; charset=utf-8'}).then(resp => {M.toast({html: 'Survey added'})}).catch(err => M.toast({html: 'Error adding survey'}))
 		}else{
-			//TODO ALERT
+			M.toast({html: 'Please add at least one question'})
 		}
 	}else{
-		//TODO ALERT
+		M.toast({html: 'Please select a survey name'})
 	}
 })
 
+
 function isValidQuestion(question){
-	console.log(question)
-	return question.question && question.answer1 && question.answer2 && question.answer3
+	return question.question && question.answers && question.answers[1] && question.answers[2] && question.answers[3]
 }

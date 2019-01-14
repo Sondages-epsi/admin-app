@@ -101,9 +101,9 @@ app.post('/answer',(req,res)=>{
 
 app.post('/survey',(req,res)=>{
 	if(checkRequest(req)){
-		createSurvey(req.body.survey).then((result) =>{
+		createSurvey(req.body).then((result) =>{
 			res.send(result);
-		}).catch(()=>{
+		}).catch((err)=>{
 			res.status(500).send('Internal error')
 		})	
 	}else{
