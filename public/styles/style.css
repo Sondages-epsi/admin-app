@@ -1,6 +1,9 @@
 .btn{
 	text-transform:none !important;
 }
+#sendButton{
+	margin-right:2vw;
+}
 .question-form{
 	height:55vh;
 	width:80%;
