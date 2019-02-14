@@ -11,7 +11,6 @@ app.use(bodyParser.json())
 app.use(express.static('public'));
 app.use((req,res,next) => {
 	res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 })
 const surveySchema = new mongoose.Schema({  
   name:String,
