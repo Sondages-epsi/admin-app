@@ -9,9 +9,6 @@ mongoose.connect('mongodb://'+process.env.DB_ADDRESS+'/'+process.env.DB_NAME,{us
 const db = mongoose.connection;
 app.use(bodyParser.json())
 app.use(express.static('public'));
-app.use((req,res,next) => {
-	res.header("Access-Control-Allow-Origin", "*")
-})
 const surveySchema = new mongoose.Schema({  
   name:String,
   questions:{
@@ -75,6 +72,8 @@ function addAnswer(data){
 }
 
 app.get('/survey',(req,res)=>{
+	
+	res.header("Access-Control-Allow-Origin", "*")
 	return Survey.findOne({}).then((survey)=>{
 		res.send(survey);
 	}).catch(() =>{
@@ -83,6 +82,8 @@ app.get('/survey',(req,res)=>{
 });
 
 app.get('/answer',(req,res)=>{
+	
+	res.header("Access-Control-Allow-Origin", "*")
 	return Answer.find({}).then((answers)=>{
 		res.send(answers);
 	}).catch(() =>{
@@ -90,6 +91,8 @@ app.get('/answer',(req,res)=>{
 	});
 });
 app.post('/answer',(req,res)=>{
+	
+	res.header("Access-Control-Allow-Origin", "*")
 	if(checkRequest(req) && checkAnswerObject(req.body)){
 		addAnswer(req.body).then((result)=>{
 			res.send(result);
@@ -103,6 +106,8 @@ app.post('/answer',(req,res)=>{
 });
 
 app.post('/survey',(req,res)=>{
+	
+	res.header("Access-Control-Allow-Origin", "*")
 	if(checkRequest(req)){
 		createSurvey(req.body).then((result) =>{
 			res.send(result);
@@ -114,7 +119,10 @@ app.post('/survey',(req,res)=>{
 	}
 });
 
-app.get('/',(req,res) => res.sendFile(path.resolve('index.html')))
+app.get('/',(req,res) => {
+	res.header("Access-Control-Allow-Origin", "*")
+	res.sendFile(path.resolve('index.html'))
+	})
 
 	
 
